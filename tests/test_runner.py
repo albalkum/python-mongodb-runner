@@ -1,6 +1,8 @@
+from pathlib import Path
 from python_mongodb_runner import MongoRunner
 import pytest
 import pymongo
+import tempfile
 
 
 @pytest.fixture
@@ -31,6 +33,21 @@ def test_temp_directory_removed(mock_mongod_exec):
 
     # ASSERT
     assert not data_dir.exists()
+
+def test_user_directory_not_cleaned(mock_mongod_exec):
+    # Assemble
+    with tempfile.TemporaryDirectory() as temp_dir:
+        runner = MongoRunner(data_directory=Path(temp_dir))
+        runner.get_uri()
+        data_dir = runner._data_directory
+
+        assert data_dir.exists()
+
+        # ACT
+        runner.close()
+
+        # ASSERT
+        assert data_dir.exists()
 
 
 def test_mongo_process_runs(mock_mongod_exec):

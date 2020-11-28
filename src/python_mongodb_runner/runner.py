@@ -14,7 +14,7 @@ class MongoRunner(object):
         
         # Check the installation directory of MongoDB
         mongo_exec = os.getenv(MONGOD_EXE)
-
+        
         if mongo_exec is None:
             raise MongoServerError(f"Mongo executable path is not set.  Please set {MONGOD_EXE} environment variable")
 
@@ -22,6 +22,7 @@ class MongoRunner(object):
         
         self._port = port or get_open_port()
         self._data_directory = data_directory or self._get_temp_data_directory()
+        self._clean_files = data_directory is None
         
         if not self._data_directory.exists():
             raise MongoServerError(f"Specified data directory {data_directory} does not exist")
@@ -54,7 +55,8 @@ class MongoRunner(object):
 
     def close(self):
         self.stop()
-        shutil.rmtree(self._data_directory)
+        if self._clean_files:
+            shutil.rmtree(self._data_directory)
     
     def __del__(self):
         self.close()

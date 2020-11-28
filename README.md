@@ -16,7 +16,9 @@ pip install -e .
 
 ## Usage
 
-Obtaining the connection URI is as easy as:
+First, set the environment variable `MONGOD_EXECUTABLE` to the path to your `mongod` binary.
+
+Then, obtaining the connection URI is as easy as:
 
 ```python
 from python-mongodb-runner import MongoRunner

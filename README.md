@@ -9,7 +9,7 @@ The idea is straight from [mongodb-memory-server](https://github.com/nodkz/mongo
 Install from source for now.  There are no external dependencies required.
 
 ```
-git clone _
+git clone https://github.com/albalkum/python-mongodb-runner.git
 cd python-mongodb-runner
 pip install -e .
 ```
